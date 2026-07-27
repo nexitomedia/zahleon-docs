@@ -1,47 +1,32 @@
 ---
-title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+title: "Zahleon einrichten"
+description: "Die wichtigsten Schritte für einen sicheren Start."
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
-
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
-
-## Prerequisites
-
-Before you begin, you must have:
-
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
-
-## Get started
-
 <Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
-
-    ```bash
-    npm install your-package
-    ```
+  <Step title="Unternehmen anlegen">
+    Erfasse Firmenname, Rechtsform, vollständige Anschrift, E-Mail, Steuer- und Umsatzsteuer-ID. Das beim ersten Einrichten gewählte Buchhaltungsland kann später nicht stillschweigend geändert werden.
   </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
-
-    ```bash
-    your-cli init
-    ```
+  <Step title="Buchhaltung festlegen">
+    Deutsche Mandanten wählen SKR03 oder SKR04 sowie Ist- oder Soll-Versteuerung. Österreichische Mandanten verwenden den vorgesehenen österreichischen Kontenrahmen. Zahleon zeigt nur Einstellungen an, die zum Buchhaltungsland passen.
   </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
-
-    ```bash
-    your-cli start
-    ```
+  <Step title="Shopify verbinden">
+    Öffne **Einstellungen → Verbindungen**, gib deine unveränderliche `myshopify.com`-Domain ein und bestätige die App-Installation bei Shopify.
+  </Step>
+  <Step title="Zahlungsanbieter und Bank verbinden">
+    Verbinde die tatsächlich verwendeten Anbieter. Shopify Payments, Stripe, PayPal und Bankbewegungen bleiben getrennte Datenquellen und werden erst im Abgleich zusammengeführt.
+  </Step>
+  <Step title="Belegquellen einrichten">
+    Nutze aktuell manuellen Upload oder E-Rechnung. Bestätige die ersten
+    Vorschläge bewusst, damit das mandantenspezifische Lernen verlässliche
+    Regeln aufbaut. Persönliche Beleg-E-Mail-Adressen sowie Gmail- und
+    Microsoft-365-Anbindungen sind noch nicht freigegeben.
+  </Step>
+  <Step title="Ersten Zeitraum prüfen">
+    Kontrolliere Buchungen, offene Zuordnungen und die UStVA-Verprobung. Exportiere erst, wenn keine fachlichen Blocker mehr angezeigt werden.
   </Step>
 </Steps>
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
-
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
-</Tip>
+<Warning>
+  Ein grüner technischer Status ersetzt keine Prüfung deiner steuerlichen Grundeinstellungen. Kläre Kontenrahmen, Versteuerungsart und Sonderfälle im Zweifel mit deiner Steuerberatung.
+</Warning>

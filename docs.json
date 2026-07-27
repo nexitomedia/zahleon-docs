@@ -1,54 +1,92 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mintlify Starter Kit",
+  "name": "Zahleon",
+  "description": "Dokumentation für Zahleon – Buchhaltung, Zahlungsabgleich und Automatisierung für Shopify-Händler.",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#312E81",
+    "light": "#4F46E5",
+    "dark": "#818CF8"
   },
   "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
   "navigation": {
     "pages": [
       {
-        "group": "Getting Started",
+        "group": "Erste Schritte",
         "pages": [
           "index",
           "quickstart"
+        ]
+      },
+      {
+        "group": "Händlerhandbuch",
+        "pages": [
+          "guides/shopify",
+          "guides/belege-ocr",
+          "guides/rechnungen",
+          "guides/zahlungen",
+          "guides/ustva",
+          "guides/abo"
+        ]
+      },
+      {
+        "group": "Entwickler",
+        "pages": [
+          "developers/overview",
+          "developers/security",
+          "developers/webhooks"
         ]
       }
     ],
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Zahleon öffnen",
+          "href": "https://app.zahleon.com",
+          "icon": "arrow-up-right-from-square"
         }
       ]
     }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@zahleon.com"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://app.mintlify.com"
+      "label": "Zur App",
+      "href": "https://app.zahleon.com"
     }
+  },
+  "seo": {
+    "indexing": "navigable",
+    "metatags": {
+      "og:site_name": "Zahleon Dokumentation",
+      "twitter:card": "summary"
+    },
+    "organization": {
+      "id": "https://zahleon.com/#organization",
+      "name": "Zahleon",
+      "legalName": "NEXITO MEDIA LLC",
+      "url": "https://zahleon.com",
+      "logo": "https://developer.zahleon.com/favicon.svg",
+      "sameAs": [
+        "https://github.com/nexitomedia"
+      ]
+    }
+  },
+  "search": {
+    "prompt": "Zahleon-Dokumentation durchsuchen …"
+  },
+  "metadata": {
+    "timestamp": true
   },
   "contextual": {
     "options": [
@@ -64,9 +102,7 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "github": "https://github.com/nexitomedia"
     }
   }
 }

@@ -1,0 +1,47 @@
+---
+title: "Webhook-Verarbeitung"
+description: "Signaturprüfung, Deduplizierung und fachliche Idempotenz."
+---
+
+Zahleon verarbeitet Webhooks in drei Schritten:
+
+1. Signatur und Herkunft prüfen.
+2. Provider-Ereignis-ID und Inhalt in einer persistenten Inbox
+   deduplizieren.
+3. Fachliche Operation mit einem stabilen Idempotenzschlüssel ausführen.
+
+Die Inbox speichert Status, Versuchszähler, Inhalts-Hash und eine
+zeitlich begrenzte Verarbeitungssperre. Eine HTTP-Wiederholung darf weder
+eine zweite Rechnung noch eine zweite Buchung oder E-Mail erzeugen.
+Vorübergehende Providerzustände wie eine noch nicht abgeschlossene
+Erstattung bleiben als ausstehend gespeichert. Ein automatischer
+Scheduler für die erneute Prüfung ist noch nicht freigegeben.
+
+<Warning>
+  Die fachliche Verarbeitung läuft derzeit noch synchron innerhalb des
+  Webhook-Aufrufs. Asynchroner Worker, automatisches Backoff und
+  Dead-Letter-Ansicht sind noch offen; die lokale Implementierung ist
+  daher noch keine Produktionsfreigabe für hohe Parallelität.
+</Warning>
+
+## Shopify-Ereignisse
+
+Der Rechnungsworkflow verwendet unter anderem:
+
+- bezahlte Bestellung,
+- vollständig erfüllte Bestellung,
+- Stornierung,
+- Retoure,
+- erfolgreiche Erstattung,
+- App-Deinstallation.
+
+Eine Retoure allein ist noch keine finanzielle Rückzahlung. Die Gegenbuchung erfolgt erst auf Basis der tatsächlichen erfolgreichen Erstattung beziehungsweise Stornierung.
+
+Für die Rechnungsentstehung gilt immer derselbe Ablauf: Zahlung erzeugt
+den Entwurf; erst vollständig erfüllt und bezahlt darf die Rechnung
+festgeschrieben werden. Trifft „erfüllt“ zuerst ein, kann ein späteres
+Zahlungsereignis die Finalisierung nachholen.
+
+Bei Korrekturen zählt nur eine tatsächlich gebuchte Gegenbuchung als
+neutralisiert. Ein blockiertes Korrekturdokument darf einen späteren
+erfolgreichen Refund nicht unterdrücken.

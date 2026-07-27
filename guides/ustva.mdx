@@ -1,0 +1,32 @@
+---
+title: "UStVA und ELSTER-XML"
+description: "Kennzahlen prüfen und Monats- oder Quartalsmeldungen vorbereiten."
+---
+
+## Zeitraum und Kennzahlen
+
+Die UStVA-Ansicht berechnet Kennzahlen direkt aus dem Buchungsjournal. Monat und Quartal sind für den XML-Export vorgesehen. Der Jahresmodus ist nur eine interne Übersicht und keine Umsatzsteuer-Jahreserklärung.
+
+## Vor dem Export
+
+Zahleon prüft unter anderem:
+
+- vollständige Firmen- und Steuernummerndaten,
+- Konto-zu-Kennzahl-Zuordnung,
+- Umsatzsteuer-Quersummen,
+- Reverse-Charge-Symmetrie,
+- Soll- oder Ist-Versteuerung,
+- sichere Zahlungszuordnung bei Ist-Versteuerung,
+- Korrekturen und Retouren mit richtigem Vorzeichen.
+
+<Warning>
+  Solange die repräsentativen 2025/2026-Testdateien nicht erfolgreich in Mein ELSTER importiert und fachlich verglichen wurden, bleibt der Händlerdownload allgemein gesperrt.
+</Warning>
+
+In der lokalen Entwicklungsumgebung kann der Betreiber eine deutlich als **Testdatei** bezeichnete XML-Datei erzeugen. Sie ist ausschließlich für den Import- und Kennzahlenvergleich in einem eigenen Mein-ELSTER-Testvorgang gedacht. Dieser lokale Abnahmemodus schaltet keinen produktiven Händlerdownload frei.
+
+Auch nach der allgemeinen Freigabe bleibt ein einzelner Zeitraum gesperrt, wenn ein Sachverhalt nicht sicher abgebildet werden kann. Dazu gehören unklare Reverse-Charge-Fälle, OSS-Abgrenzungen, unbestätigte Nullmeldungen oder fehlende Zahlungsreferenzen.
+
+## Technisches Format
+
+Zahleon erzeugt die Datei nach den amtlichen Schemata für 2025 und 2026, prüft sie gegen das passende XSD und liefert sie in ISO-8859-15 aus. Die Datei wird anschließend vom Händler selbst in Mein ELSTER importiert. Eine direkte ERiC-Übermittlung ist nicht Bestandteil dieser ersten Ausbaustufe.

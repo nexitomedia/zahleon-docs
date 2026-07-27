@@ -1,0 +1,48 @@
+---
+title: "Entwicklerübersicht"
+description: "Architektur und Integrationsprinzipien der Zahleon-Plattform."
+---
+
+Zahleon ist eine mandantenfähige Next.js-Anwendung mit TypeScript. Integrationen folgen denselben Grundregeln:
+
+- OAuth-Zugangsdaten werden serverseitig und mandantenbezogen gespeichert.
+- Webhooks werden signiert geprüft und idempotent verarbeitet.
+- Geldbeträge werden als ganzzahlige Centwerte gespeichert.
+- Schreiboperationen verwenden stabile Idempotenzschlüssel.
+- Unsichere Buchungs- oder Steuerfälle werden blockiert statt geraten.
+
+<Note>
+  Eine öffentliche API mit verwalteten API-Schlüsseln und Scopes wird erst veröffentlicht, wenn Hashspeicherung, Rechte, Rate Limits und Audit-Protokoll vollständig umgesetzt sind. Bis dahin dokumentiert diese Seite Architektur und freigegebene Integrationen, aber keine vermeintlich nutzbaren Zugangsdaten.
+</Note>
+
+## Plattform
+
+- TypeScript
+- React 19
+- Next.js 16 mit App Router
+- Node.js 20
+- Tailwind CSS 4
+- shadcn/ui, Radix UI und Lucide Icons
+
+## Shopify
+
+Die Zahleon-Anwendung ist selbst das Backend der Shopify-App. Eine zweite Codebasis ist nicht erforderlich. Jeder Händler installiert die App in seinem eigenen Shop und autorisiert nur die benötigten Scopes.
+
+Die eingebettete Oberfläche im Shopify-Admin authentifiziert sichtbare
+Aufrufe mit kurzlebigen Shopify-Sitzungstokens. Dauerhafte
+Hintergrundzugriffe und Webhooks verwenden die serverseitig gespeicherte,
+mandantengebundene Shop-Autorisierung. Beide Wege werden gegen den
+konkreten Shop und Händlerkontext geprüft.
+
+Der Rechnungsworkflow ist zweistufig: Ein Zahlungsereignis erzeugt den
+Entwurf, die vollständige Erfüllung finalisiert ihn nur bei bestätigter
+Zahlung. Webhook-Inbox, Rechnungsversand, Shopify-Files-Referenz und ein
+lokaler Shopify-Payments-Abruf sind implementiert und automatisiert
+getestet.
+
+<Warning>
+  Die vollständige Dev-Shop-End-to-End-Abnahme, asynchrone Worker mit
+  Backoff und Fehlerablage, instanzübergreifende Datenbank-Locks sowie
+  automatische Payout-Zeitpläne sind noch offen. Diese Funktionen gelten
+  daher noch nicht als produktiv freigegeben.
+</Warning>

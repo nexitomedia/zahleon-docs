@@ -1,0 +1,28 @@
+---
+title: "Sicherheit"
+description: "Authentifizierung, Mandantentrennung und sichere Integrationen."
+---
+
+## Grundregeln
+
+- Jeder Datenzugriff wird auf den aktiven Mandanten begrenzt.
+- OAuth-State und Webhook-Signaturen werden serverseitig geprüft.
+- Geheimnisse gehören ausschließlich in Umgebungsvariablen oder einen geeigneten Secret Store.
+- Webhook-Ereignisse werden über ihre Provider-ID dedupliziert.
+- Exporte mit fachlichen Blockern werden nicht erzeugt.
+- Sensible Antworten und Dateien verwenden `Cache-Control: no-store`.
+
+## API-Schlüssel
+
+Zahleon veröffentlicht erst dann API-Schlüssel, wenn folgende Funktionen bereitstehen:
+
+- kryptografisch sichere Erzeugung,
+- nur einmalige Anzeige des Klartexts,
+- Hashspeicherung,
+- widerrufbare Scopes,
+- Ablauf und Rotation,
+- Rate Limits,
+- Audit-Protokoll.
+
+Bis dahin gibt es keine öffentlichen persönlichen API-Schlüssel.
+
