@@ -1,0 +1,37 @@
+---
+title: "Shopify-Integration"
+description: "OAuth, eingebettete App, Webhooks und Payouts."
+---
+
+## Verbindung
+
+Die Installation startet über Zahleons Shopify-OAuth-Route. Der
+serverseitige Callback prüft den OAuth-State, bindet die unveränderliche
+`myshopify.com`-Domain an den Mandanten und speichert den Zugriff
+serverseitig.
+
+## Authentifizierung
+
+Die eingebettete Admin-Oberfläche verwendet kurzlebige Shopify Session
+Tokens. Hintergrundprozesse und Webhooks verwenden die serverseitig
+gespeicherte Shop-Autorisierung. Shop und Mandant werden bei jedem
+Zugriff erneut zugeordnet.
+
+## Webhook Topics
+
+- `orders/paid`
+- `orders/fulfilled`
+- `orders/cancelled`
+- `refunds/create`
+- `returns/*`
+- `app/uninstalled`
+- Shopify Compliance Topics
+
+Return-Ereignisse allein lösen keine finanzielle Gegenbuchung aus. Diese
+entsteht erst durch eine bestätigte Rückerstattung oder Stornierung.
+
+## Payouts
+
+`POST /api/shopify/payouts/sync` liest Shopify-Payments-Payouts für einen
+angegebenen Zeitraum. Die Route benötigt eine aktive Zahleon-Sitzung mit
+Schreibrecht.

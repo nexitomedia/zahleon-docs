@@ -1,0 +1,28 @@
+---
+title: "Authentifizierung"
+description: "Authentifizierung und Berechtigungen der Zahleon Application API."
+---
+
+## Private Preview
+
+API-Aufrufe werden momentan über die Zahleon-Browsersitzung
+authentifiziert. Der Server löst daraus Benutzer, Rolle und Mandant auf.
+Jeder Datenzugriff bleibt auf diesen Mandanten begrenzt.
+
+| Status | Bedeutung |
+| --- | --- |
+| `401 Unauthorized` | Sitzung fehlt oder ist abgelaufen |
+| `403 Forbidden` | Rolle besitzt kein Schreibrecht |
+
+## API-Schlüssel
+
+Öffentliche API-Schlüssel werden erst freigegeben, wenn Erzeugung,
+Hashspeicherung, Scopes, Ablauf, Rotation, Rate Limits und Auditierung
+vollständig verfügbar sind. Bis dahin gibt es keine unterstützte
+Bearer-Token-Authentifizierung für Drittanwendungen.
+
+<Warning>
+  Leite Session-Cookies niemals an Browser-Erweiterungen oder externe
+  Dienste weiter. Für serverseitige Produktintegrationen ist die Public
+  API abzuwarten.
+</Warning>

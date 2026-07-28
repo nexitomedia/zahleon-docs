@@ -1,0 +1,46 @@
+---
+title: "Quickstart"
+description: "Führe deinen ersten authentifizierten Zahleon-API-Aufruf aus."
+---
+
+## Voraussetzungen
+
+- Zugang zu einer Zahleon-Entwicklungsinstanz
+- angemeldete Zahleon-Sitzung mit Schreibrecht
+- Node.js 20 oder neuer
+
+## Base URL
+
+```text
+https://app.zahleon.com
+```
+
+Für lokale Entwicklung lautet die URL üblicherweise
+`http://localhost:3000`.
+
+## Sitzung prüfen
+
+Die Private Preview verwendet die sichere Zahleon-Session-Cookie. Ein
+Aufruf ohne gültige Sitzung antwortet mit `401`.
+
+```bash
+curl --request GET \
+  --url https://app.zahleon.com/api/auth/session \
+  --cookie "zahleon_session=<session-cookie>"
+```
+
+<Note>
+  Die Session-Cookie ist ein Geheimnis. Übertrage sie ausschließlich über
+  HTTPS und schreibe sie weder in Quellcode noch in Logs.
+</Note>
+
+## Nächste Schritte
+
+<CardGroup cols={2}>
+  <Card title="Authentifizierung" icon="key" href="/getting-started/authentication">
+    Sitzung, Rollen und zukünftige API-Schlüssel.
+  </Card>
+  <Card title="API-Konventionen" icon="code" href="/getting-started/conventions">
+    JSON, Geldbeträge, Datumswerte und Fehler.
+  </Card>
+</CardGroup>

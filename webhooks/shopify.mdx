@@ -1,0 +1,26 @@
+---
+title: "Shopify Webhooks"
+description: "Validierung und Ereignisse des zentralen Shopify-Endpunkts."
+---
+
+Shopify sendet Ereignisse an:
+
+```text
+POST https://app.zahleon.com/api/webhooks/shopify
+```
+
+Zahleon validiert die Shopify-HMAC gegen den unveränderten Request Body.
+Das Topic wird aus dem signierten Shopify-Kontext gelesen. Jede gültige
+Zustellung wird über `X-Shopify-Webhook-Id` dedupliziert.
+
+## Compliance
+
+Der zentrale Endpunkt verarbeitet außerdem:
+
+- `customers/data_request`
+- `customers/redact`
+- `shop/redact`
+
+Steuerlich aufbewahrungspflichtige Belege werden nicht unzulässig
+gelöscht. Das Ergebnis dokumentiert automatisch behandelte und bewusst
+aufbewahrte Daten.

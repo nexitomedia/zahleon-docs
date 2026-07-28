@@ -1,0 +1,20 @@
+---
+title: "Fehlerbehandlung"
+description: "Statuscodes, Retries und sichere Fehlerbehandlung."
+---
+
+Behandle `4xx` als Problem mit Authentifizierung, Berechtigung, Eingabe
+oder aktuellem Ressourcenstatus. Wiederhole diese Requests nicht
+unverändert.
+
+Bei `502` und `503` kann ein angebundener Dienst vorübergehend nicht
+erreichbar sein. Verwende exponentielles Backoff mit Jitter und einer
+begrenzten Anzahl von Versuchen.
+
+```ts
+const delay = Math.min(30_000, 500 * 2 ** attempt);
+await new Promise((resolve) => setTimeout(resolve, delay + Math.random() * 250));
+```
+
+Speichere keine Session-Cookies, Provider-Tokens oder vollständigen
+Webhook-Payloads in öffentlich zugänglichen Logs.

@@ -1,0 +1,26 @@
+---
+title: "Sicherheit"
+description: "Mandantentrennung, Secrets und sichere Integrationen."
+---
+
+## Grundregeln
+
+- Jeder Datenzugriff wird auf den authentifizierten Mandanten begrenzt.
+- OAuth-State und Provider-Signaturen werden serverseitig geprüft.
+- Secrets gehören ausschließlich in Secret Stores oder
+  Umgebungsvariablen.
+- Webhook-Ereignisse werden über ihre Provider-ID dedupliziert.
+- Geldbeträge werden als ganzzahlige Centwerte verarbeitet.
+- Sensible Antworten und Dateien verwenden `Cache-Control: no-store`.
+
+## Secret Handling
+
+Übertrage Cookies, OAuth-Tokens und Webhook-Secrets ausschließlich über
+TLS. Gib sie niemals in Query-Strings, Client-Bundles, Screenshots oder
+Support-Tickets aus.
+
+## Responsible Disclosure
+
+Melde Sicherheitsprobleme vertraulich an
+[security@nexito.media](mailto:security@nexito.media). Veröffentliche
+Details erst nach abgestimmter Behebung.

@@ -1,0 +1,19 @@
+---
+title: "PayPal Webhooks"
+description: "Verifikation und Wiederholungen für PayPal-Ereignisse."
+---
+
+PayPal sendet Ereignisse an:
+
+```text
+POST https://app.zahleon.com/api/webhooks/paypal
+```
+
+Erforderlich sind die PayPal-Übertragungsheader für ID, Zeit,
+Zertifikats-URL, Algorithmus und Signatur. Zahleon verifiziert das
+vollständige Ereignis über PayPals
+`verify-webhook-signature`-Schnittstelle und gleicht die konfigurierte
+Webhook-ID ab.
+
+Die PayPal Event-ID schützt vor doppelter Verarbeitung. Vorübergehende
+Verifikations- oder Verarbeitungsfehler antworten mit `503` oder `500`.

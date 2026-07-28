@@ -1,0 +1,35 @@
+---
+title: "Webhooks"
+description: "Sichere und idempotente Ereignisverarbeitung in Zahleon."
+---
+
+Zahleon empfängt signierte Webhooks von Shopify, Stripe und PayPal.
+Diese Endpunkte werden von den jeweiligen Providern aufgerufen und sind
+keine allgemeinen Client-Endpunkte.
+
+## Verarbeitungsmodell
+
+<Steps>
+  <Step title="Signatur prüfen">
+    Zahleon prüft Signatur und Herkunft gegen den unveränderten Raw Body.
+  </Step>
+  <Step title="Ereignis claimen">
+    Die Provider-Ereignis-ID wird in einer Inbox atomar reserviert.
+  </Step>
+  <Step title="Idempotent verarbeiten">
+    Wiederholte Zustellungen erzeugen keine zweite Rechnung, Buchung oder
+    E-Mail.
+  </Step>
+  <Step title="Status speichern">
+    Erfolg oder Fehler werden für Auditierung und Provider-Retries
+    festgehalten.
+  </Step>
+</Steps>
+
+## Antworten
+
+- Erfolgreiche Verarbeitung und bekannte Duplikate: `2xx`
+- Ungültige Signatur oder Payload: `4xx`
+- Bereits laufende oder vorübergehend fehlgeschlagene Verarbeitung: `5xx`
+
+Provider dürfen `5xx` erneut zustellen.

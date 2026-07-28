@@ -1,0 +1,41 @@
+---
+title: "API-Konventionen"
+description: "Gemeinsame Regeln für Requests, Responses und Idempotenz."
+---
+
+## Datenformate
+
+- JSON-Requests verwenden `Content-Type: application/json`.
+- Geldbeträge werden als ganzzahlige Centwerte übertragen.
+- Datumswerte verwenden `YYYY-MM-DD`.
+- Zeitpunkte verwenden ISO 8601 in UTC.
+- Währungscodes folgen ISO 4217, beispielsweise `EUR`.
+
+## Schreiboperationen
+
+Schreiboperationen prüfen Rolle und Mandant. Finanzielle Workflows
+verwenden stabile interne Idempotenzschlüssel, damit Wiederholungen keine
+doppelten Rechnungen oder Buchungen erzeugen.
+
+## Fehlerformat
+
+```json
+{
+  "error": "Menschenlesbare Fehlermeldung",
+  "helpUrl": "https://developer.zahleon.com/reference/errors"
+}
+```
+
+## Statuscodes
+
+| Code | Bedeutung |
+| --- | --- |
+| `200` | Anfrage erfolgreich |
+| `201` | Ressource erstellt |
+| `400` | Eingabe ungültig |
+| `401` | nicht authentifiziert |
+| `403` | keine Berechtigung |
+| `404` | Ressource nicht gefunden |
+| `409` | fachlicher Zustandskonflikt |
+| `502` | angebundener Provider antwortet fehlerhaft |
+| `503` | Dienst oder Provider vorübergehend nicht verfügbar |

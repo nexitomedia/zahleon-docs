@@ -1,8 +1,8 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Zahleon",
-  "description": "Dokumentation für Zahleon – Buchhaltung, Zahlungsabgleich und Automatisierung für Shopify-Händler.",
+  "name": "Zahleon Developers",
+  "description": "Developer documentation and API reference for the Zahleon integration platform.",
   "colors": {
     "primary": "#312E81",
     "light": "#4F46E5",
@@ -14,32 +14,72 @@
     "dark": "/logo/dark.svg"
   },
   "navigation": {
-    "pages": [
+    "tabs": [
       {
-        "group": "Erste Schritte",
-        "pages": [
-          "index",
-          "quickstart"
+        "tab": "Documentation",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "Get started",
+            "pages": [
+              "index",
+              "getting-started/quickstart",
+              "getting-started/authentication",
+              "getting-started/conventions"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations/shopify"
+            ]
+          },
+          {
+            "group": "Webhooks",
+            "pages": [
+              "webhooks/overview",
+              "webhooks/shopify",
+              "webhooks/stripe",
+              "webhooks/paypal"
+            ]
+          },
+          {
+            "group": "Security",
+            "pages": [
+              "security"
+            ]
+          }
         ]
       },
       {
-        "group": "Händlerhandbuch",
+        "tab": "API Reference",
+        "icon": "square-terminal",
+        "openapi": "/openapi.json",
         "pages": [
-          "guides/shopify",
-          "guides/belege-ocr",
-          "guides/rechnungen",
-          "guides/zahlungen",
-          "guides/provider-sammelabrechnungen",
-          "guides/ustva",
-          "guides/abo"
-        ]
-      },
-      {
-        "group": "Entwickler",
-        "pages": [
-          "developers/overview",
-          "developers/security",
-          "developers/webhooks"
+          "reference/overview",
+          {
+            "group": "Invoices",
+            "pages": [
+              "POST /api/rechnungen",
+              "PATCH /api/rechnungen/{id}",
+              "DELETE /api/rechnungen/{id}",
+              "POST /api/rechnungen/{id}/festschreiben"
+            ]
+          },
+          {
+            "group": "Documents",
+            "pages": [
+              "POST /api/belege/upload"
+            ]
+          },
+          {
+            "group": "Provider sync",
+            "pages": [
+              "POST /api/payment-providers/{provider}/sync",
+              "POST /api/shopify/payouts/sync"
+            ]
+          },
+          "reference/errors"
         ]
       }
     ],
@@ -49,6 +89,11 @@
           "anchor": "Zahleon öffnen",
           "href": "https://app.zahleon.com",
           "icon": "arrow-up-right-from-square"
+        },
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/nexitomedia",
+          "icon": "github"
         }
       ]
     }
@@ -56,20 +101,20 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
+        "label": "Developer Support",
         "href": "mailto:support@zahleon.com"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Zur App",
+      "label": "Zahleon öffnen",
       "href": "https://app.zahleon.com"
     }
   },
   "seo": {
     "indexing": "navigable",
     "metatags": {
-      "og:site_name": "Zahleon Dokumentation",
+      "og:site_name": "Zahleon Developer Documentation",
       "twitter:card": "summary"
     },
     "organization": {
@@ -84,7 +129,7 @@
     }
   },
   "search": {
-    "prompt": "Zahleon-Dokumentation durchsuchen …"
+    "prompt": "Developer Docs durchsuchen …"
   },
   "metadata": {
     "timestamp": true

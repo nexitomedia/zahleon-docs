@@ -1,0 +1,18 @@
+---
+title: "Stripe Webhooks"
+description: "Signaturprüfung, Deduplizierung und Retry-Verhalten für Stripe."
+---
+
+Stripe sendet Ereignisse an:
+
+```text
+POST https://app.zahleon.com/api/webhooks/stripe
+```
+
+Zahleon prüft den Header `Stripe-Signature` mit
+`STRIPE_WEBHOOK_SECRET`. Die Stripe Event-ID dient zur Deduplizierung.
+Ein erfolgreich verarbeitetes Duplikat wird mit `200` bestätigt.
+
+Wenn ein Ereignis bereits verarbeitet wird oder die Verarbeitung
+vorübergehend scheitert, antwortet Zahleon mit `5xx`, damit Stripe den
+signierten Retry ausführt.

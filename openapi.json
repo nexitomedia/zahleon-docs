@@ -1,0 +1,603 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Zahleon Application API",
+    "version": "0.1.0-preview",
+    "description": "Private Preview der sitzungsbasierten Zahleon Application API. Nicht als öffentliche, langfristig versionierte API freigegeben."
+  },
+  "servers": [
+    {
+      "url": "https://app.zahleon.com",
+      "description": "Production"
+    },
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development"
+    }
+  ],
+  "security": [
+    {
+      "sessionCookie": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Invoices"
+    },
+    {
+      "name": "Documents"
+    },
+    {
+      "name": "Provider sync"
+    }
+  ],
+  "paths": {
+    "/api/rechnungen": {
+      "post": {
+        "tags": [
+          "Invoices"
+        ],
+        "summary": "Create invoice draft",
+        "description": "Legt einen neuen Rechnungsentwurf im aktiven Mandanten an.",
+        "operationId": "createInvoiceDraft",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceDraftInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Entwurf erstellt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/rechnungen/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/InvoiceId"
+        }
+      ],
+      "patch": {
+        "tags": [
+          "Invoices"
+        ],
+        "summary": "Update invoice draft",
+        "description": "Aktualisiert einen noch nicht festgeschriebenen Rechnungsentwurf.",
+        "operationId": "updateInvoiceDraft",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceDraftInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Entwurf aktualisiert",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Invoices"
+        ],
+        "summary": "Delete invoice draft",
+        "description": "Verwirft einen Rechnungsentwurf. Festgeschriebene Dokumente können nicht gelöscht werden.",
+        "operationId": "deleteInvoiceDraft",
+        "responses": {
+          "200": {
+            "description": "Entwurf gelöscht",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      }
+    },
+    "/api/rechnungen/{id}/festschreiben": {
+      "post": {
+        "tags": [
+          "Invoices"
+        ],
+        "summary": "Finalize invoice",
+        "description": "Vergibt die nächste Rechnungsnummer, schreibt die Rechnung fest und erzeugt die zugehörigen Buchungen. Blockierte Steuerfälle werden nicht festgeschrieben.",
+        "operationId": "finalizeInvoice",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/InvoiceId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rechnung festgeschrieben",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      }
+    },
+    "/api/belege/upload": {
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Upload document",
+        "description": "Lädt einen Beleg hoch und startet abhängig vom Dateityp die sichere Belegverarbeitung.",
+        "operationId": "uploadDocument",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Beleg angenommen"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/payment-providers/{provider}/sync": {
+      "post": {
+        "tags": [
+          "Provider sync"
+        ],
+        "summary": "Sync provider payouts",
+        "description": "Synchronisiert Auszahlungen von Stripe oder PayPal für einen abgeschlossenen Zeitraum.",
+        "operationId": "syncProviderPayouts",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "stripe",
+                "paypal"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DateRange"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronisierung abgeschlossen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "ok",
+                    "imported"
+                  ],
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "imported": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "502": {
+            "$ref": "#/components/responses/UpstreamError"
+          }
+        }
+      }
+    },
+    "/api/shopify/payouts/sync": {
+      "post": {
+        "tags": [
+          "Provider sync"
+        ],
+        "summary": "Sync Shopify Payments payouts",
+        "description": "Liest Shopify-Payments-Payouts für den angegebenen Zeitraum und übernimmt sie idempotent.",
+        "operationId": "syncShopifyPayouts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DateRange"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronisierung abgeschlossen"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "502": {
+            "$ref": "#/components/responses/UpstreamError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "sessionCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "zahleon_session",
+        "description": "Private Preview: sichere Zahleon-Browsersitzung."
+      }
+    },
+    "parameters": {
+      "InvoiceId": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Interne Rechnungs-ID",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "schemas": {
+      "DateRange": {
+        "type": "object",
+        "required": [
+          "startDate",
+          "endDate"
+        ],
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "InvoiceLineItem": {
+        "type": "object",
+        "required": [
+          "description",
+          "quantity",
+          "unitPriceCents",
+          "taxRatePercent"
+        ],
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "unitPriceCents": {
+            "type": "integer"
+          },
+          "taxRatePercent": {
+            "type": "number"
+          }
+        }
+      },
+      "InvoiceDraftInput": {
+        "type": "object",
+        "required": [
+          "customer",
+          "date",
+          "lineItems"
+        ],
+        "properties": {
+          "customer": {
+            "type": "string"
+          },
+          "customerEmail": {
+            "type": "string",
+            "format": "email"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "serviceDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "currency": {
+            "type": "string",
+            "default": "EUR",
+            "pattern": "^[A-Z]{3}$"
+          },
+          "lineItems": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/InvoiceLineItem"
+            }
+          }
+        }
+      },
+      "Invoice": {
+        "type": "object",
+        "required": [
+          "id",
+          "customer",
+          "date",
+          "amountCents",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "number": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "customer": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "amountCents": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "locked",
+              "cancelled",
+              "correction",
+              "cancellation_document"
+            ]
+          }
+        },
+        "additionalProperties": true
+      },
+      "InvoiceResponse": {
+        "type": "object",
+        "required": [
+          "ok",
+          "invoice"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "const": true
+          },
+          "invoice": {
+            "$ref": "#/components/schemas/Invoice"
+          }
+        }
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "required": [
+          "ok"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "const": true
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "helpUrl": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Ungültige Eingabe",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Sitzung fehlt oder ist abgelaufen",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Rolle besitzt kein Schreibrecht",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Ressource nicht gefunden",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Fachlicher Zustandskonflikt",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "UpstreamError": {
+        "description": "Provider konnte nicht synchronisiert werden",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+}

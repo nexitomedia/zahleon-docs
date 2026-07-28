@@ -1,34 +1,34 @@
 ---
-title: "Zahleon Dokumentation"
-description: "Buchhaltung, Zahlungsabgleich und Automatisierung für Shopify-Händler."
+title: "Zahleon Developer Platform"
+description: "Technische Dokumentation für die Integration mit Zahleon."
 ---
 
-Zahleon führt Bestellungen, Rechnungen, Belege, Zahlungsanbieter und Bankbewegungen in einem nachvollziehbaren Buchungsworkflow zusammen. Die Software richtet sich zunächst an Händler mit einem Unternehmen und einem Shopify-Shop in Deutschland oder Österreich.
-
-<Note>
-  Zahleon unterstützt bei der technischen Buchhaltung. Die Dokumentation ersetzt keine individuelle Steuer- oder Rechtsberatung.
-</Note>
+Zahleon verbindet Rechnungen, Zahlungsanbieter, Shopify und
+Buchhaltungsworkflows über eine mandantenfähige Integrationsplattform.
 
 <CardGroup cols={2}>
-  <Card title="Zahleon einrichten" icon="rocket" href="/quickstart">
-    Hinterlege dein Unternehmen, den Kontenrahmen und deine Verbindungen.
+  <Card title="Quickstart" icon="rocket" href="/getting-started/quickstart">
+    Richte eine Entwicklungsumgebung ein und führe den ersten API-Aufruf aus.
   </Card>
-  <Card title="Shopify verbinden" icon="shop" href="/guides/shopify">
-    Verstehe den Ablauf von der bezahlten Bestellung bis zur Korrektur.
+  <Card title="API Reference" icon="brackets-curly" href="/reference/overview">
+    Entdecke die aktuell verfügbare Application API.
   </Card>
-  <Card title="Belege und OCR" icon="file-magnifying-glass" href="/guides/belege-ocr">
-    Erfasse Eingangsbelege und bestätige Kontierung und Steuerfall.
+  <Card title="Shopify" icon="shopify" href="/integrations/shopify">
+    OAuth, Session Tokens, Webhooks und Payout-Synchronisierung.
   </Card>
-  <Card title="UStVA vorbereiten" icon="file-code" href="/guides/ustva">
-    Prüfe Kennzahlen und bereite Monats- oder Quartalsmeldungen für die
-    dokumentierte Mein-ELSTER-Abnahme vor.
+  <Card title="Webhooks" icon="webhook" href="/webhooks/overview">
+    Signaturprüfung, Idempotenz und Retry-Verhalten.
   </Card>
 </CardGroup>
 
-## Grundprinzipien
+## Verfügbarkeit
 
-- Zahleon rät keine unklaren Steuerfälle oder Geldbeträge.
-- Rechnungsnummern werden erst bei der Festschreibung vergeben.
-- Festgeschriebene Dokumente werden nicht überschrieben.
-- Storno und Erstattung erzeugen nachvollziehbare Korrekturdokumente und Gegenbuchungen.
-- Händlerdaten bleiben strikt nach Mandant getrennt.
+Die dokumentierte Application API befindet sich in einer privaten
+Entwickler-Preview. Sie verwendet derzeit die Zahleon-Browsersitzung und
+ist nicht als allgemeine Public API mit persönlichen API-Schlüsseln
+freigegeben.
+
+<Warning>
+  Verwende keine internen Endpunkte aus dem Quellcode, die nicht in dieser
+  Dokumentation aufgeführt sind. Sie können sich ohne Versionierung ändern.
+</Warning>
