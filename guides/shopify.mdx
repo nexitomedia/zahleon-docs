@@ -76,6 +76,26 @@ Korrekturdokument zählt dabei nicht als neutralisiert.
   Ein blockierter Entwurf verbraucht keine Rechnungsnummer. Prüfe die angezeigte Ursache, statt unklare Daten zu bestätigen.
 </Warning>
 
+## Shopify Payments und Payouts
+
+Bei Shopify Payments verwendet Zahleon ein eigenes Verrechnungskonto:
+
+| Kontenrahmen | Shopify Payments | Bank | Gebühren |
+| --- | --- | --- | --- |
+| SKR03 | `1361` | `1200` | `4970`, RC `1577` / `1787` |
+| SKR04 | `1460` | `1800` | `6855`, RC `3837` / `3827` |
+| SKR07 | `2870` | `2800` | `7790`, RC `2520` / `3520` |
+
+Die Rechnung bucht den Verkauf auf das Shopify-Verrechnungskonto.
+Gebühren mindern dieses Konto. Das spätere Payout bucht nur Bank an
+Shopify-Verrechnungskonto. Nach einem vollständig zugeordneten Payout
+läuft das Verrechnungskonto auf `0,00`.
+
+Shopify-Grundgebühren und App-Abonnements sind davon getrennte
+Eingangsrechnungen. Zahleon bucht sie auf das bestätigte Software- oder
+EDV-Aufwandskonto und behandelt ausländische Netto-Rechnungen mit dem
+Reverse-Charge-Paar des aktiven Kontenrahmens.
+
 ## Typische Blocker
 
 - Rechnungsanschrift, Land oder E-Mail fehlen.

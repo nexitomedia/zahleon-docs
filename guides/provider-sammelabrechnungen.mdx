@@ -1,0 +1,70 @@
+---
+title: "Provider-Sammelabrechnungen"
+description: "Monatsbelege von Stripe und PayPal mit bereits gebuchten API-Gebühren verknüpfen."
+---
+
+Stripe und PayPal stellen periodische Gebührenabrechnungen bereit. Wenn
+Zahleon die einzelnen Gebühren im Leistungsmonat bereits über die
+Providerdaten gebucht hat, ist das PDF keine neue Ausgabe. Es ist der
+GoBD-Nachweis für die vorhandenen Gebührenbuchungen.
+
+<Warning>
+  Buche einen Monatsbeleg nicht zusätzlich als normale Eingangsrechnung.
+  Sonst entstehen Aufwand und gegebenenfalls Reverse Charge doppelt.
+</Warning>
+
+## So verarbeitet Zahleon den Beleg
+
+1. Lade das PDF unter **Belege** hoch.
+2. Zahleon erkennt Provider, Rechnungsnummer, Leistungsmonat,
+   Gesamtsumme und den noch offenen Betrag.
+3. Zahleon summiert die bereits vorhandenen API-Gebührenbuchungen des
+   Leistungsmonats.
+4. Nur bei einer centgenauen Übereinstimmung bietet Zahleon den Status
+   **Sammelabrechnung / über API verbucht** an.
+5. Mit deiner Bestätigung wird das PDF unveränderlich mit den konkreten
+   Gebührenbuchungen verknüpft.
+6. Es entsteht kein neuer Buchungssatz.
+
+Zahleon verlangt einen offenen Betrag von `0,00` und einen Hinweis, dass
+die Gebühr bereits vom Provider-Guthaben abgezogen wurde. Ein
+abweichender Betrag, ein anderer Zeitraum oder eine bereits anderweitig
+verknüpfte Gebührenbuchung verhindert den Abschluss.
+
+## Stripe
+
+Stripe-Gebühren werden als grenzüberschreitende Providerleistung mit
+Reverse Charge behandelt. Die virtuelle Vorsteuer und Umsatzsteuer sind
+nicht Bestandteil der Gebührensumme des Monatsbelegs.
+
+| Kontenrahmen | Providerkonto | Gebührenkonto | Reverse Charge |
+| --- | --- | --- | --- |
+| DE SKR03 | `1210` | `4970` | `1577` / `1787`, 19 % |
+| DE SKR04 | `1810` | `6855` | `3837` / `3827`, 19 % |
+| AT SKR07 | `2810` | `7790` | `2520` / `3520`, 20 % |
+
+## PayPal
+
+Zahleon erkennt PayPal unter anderem an `PayPal Europe S.à r.l.` und der
+USt-ID `LU22044747`.
+
+| Kontenrahmen | PayPal-Konto | Gebührenkonto | Steuerbehandlung |
+| --- | --- | --- | --- |
+| DE SKR03 | `1210` | `6855` | steuerfrei, keine Steuerzeile |
+| DE SKR04 | `1810` | `6855` | steuerfrei, keine Steuerzeile |
+| AT SKR07 | `2810` | `7790` | Reverse Charge über `2520` / `3520`, 20 % |
+
+Bei österreichischen Mandanten berücksichtigt der Abgleich nur die
+Gebühren auf `7790`. Die virtuellen Buchungen auf `2520` und `3520`
+werden nicht zur PDF-Summe addiert.
+
+## Prüfschutz
+
+Zahleon prüft beim Bestätigen erneut, ob alle verknüpften Gebühren noch
+exakt passen. Schlägt diese Prüfung fehl, bleibt der Beleg offen. Der
+Journal-Guard verhindert, dass der Nachweis eine weitere Buchung auf
+`4970`, `6855` oder `7790` und damit eine doppelte Steuerwirkung erzeugt.
+
+Im Protokoll erscheint bei PayPal beispielsweise:
+
+> PayPal-Sammelabrechnung YYYY-MM verknüpft – keine neue Buchung entstanden.
